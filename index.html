@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Offerte aanvragen · Mor Ephrem Bookshop</title>
+  <meta name="description" content="Vraag een vrijblijvende offerte aan voor een grotere bestelling boeken bij Mor Ephrem Bookshop. Kies titels en aantallen en wij sturen u een prijsopgave." />
+  <link rel="preconnect" href="https://cdn.shopify.com" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Verborgen formulier zodat Netlify Forms de velden detecteert bij build -->
+  <form name="offerte" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="naam" />
+    <input type="text" name="organisatie" />
+    <input type="email" name="email" />
+    <input type="text" name="telefoon" />
+    <input type="text" name="adres" />
+    <input type="text" name="levering" />
+    <textarea name="opmerkingen"></textarea>
+    <textarea name="bestelling"></textarea>
+    <input type="text" name="aantal_titels" />
+    <input type="text" name="totaal_exemplaren" />
+    <input type="text" name="richtprijs" />
+  </form>
+
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="brand">
+        <span class="brand-mark">ܡܪܝ</span>
+        <div class="brand-text">
+          <strong>Mor Ephrem Bookshop</strong>
+          <span>Offerte voor grotere bestellingen</span>
+        </div>
+      </div>
+      <a class="header-link" href="https://morephrem.shop" target="_blank" rel="noopener">Naar de webshop →</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <h1>Vraag een offerte aan</h1>
+      <p class="lead">
+        Bestelt u voor een kerk, parochie, school of bibliotheek — of gewoon een grotere
+        hoeveelheid? Stel hieronder uw lijst samen, vul uw gegevens in en wij sturen u
+        een vrijblijvende prijsopgave met staffelkorting en verzendkosten op maat.
+      </p>
+      <ul class="hero-points">
+        <li>✓ Vrijblijvend en gratis</li>
+        <li>✓ Scherpe prijs bij grotere aantallen</li>
+        <li>✓ Reactie binnen enkele werkdagen</li>
+      </ul>
+    </div>
+  </section>
+
+  <main class="wrap layout">
+    <div class="catalog-col">
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Zoek op titel…" autocomplete="off" />
+        <select id="category">
+          <option value="">Alle categorieën</option>
+        </select>
+      </div>
+      <p id="result-count" class="result-count"></p>
+      <div id="catalog" class="catalog" aria-live="polite"></div>
+      <p id="empty" class="empty" hidden>Geen titels gevonden voor uw zoekopdracht.</p>
+    </div>
+
+    <aside class="summary-col">
+      <div class="summary card">
+        <h2>Uw selectie</h2>
+        <div id="summary-items" class="summary-items">
+          <p class="summary-empty">Nog niets geselecteerd. Voeg hierboven titels en aantallen toe.</p>
+        </div>
+        <div class="summary-totals">
+          <div><span>Titels</span><strong id="sum-titles">0</strong></div>
+          <div><span>Exemplaren</span><strong id="sum-copies">0</strong></div>
+          <div class="grand"><span>Richtprijs</span><strong id="sum-price">€ 0,00</strong></div>
+        </div>
+        <p class="disclaimer">Dit is een indicatieve richtprijs op basis van losse stuksprijzen, excl. verzending. De definitieve offerte kan afwijken (bv. staffelkorting).</p>
+        <a href="#offerte-form" class="btn btn-secondary">Naar het formulier ↓</a>
+      </div>
+    </aside>
+  </main>
+
+  <section id="offerte-form" class="form-section">
+    <div class="wrap">
+      <div class="card form-card">
+        <h2>Uw gegevens</h2>
+        <p class="form-intro">Vul uw gegevens in. Uw geselecteerde titels worden automatisch meegestuurd.</p>
+        <form id="offerteForm" name="offerte" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/bedankt.html">
+          <input type="hidden" name="form-name" value="offerte" />
+          <p class="hp"><label>Niet invullen: <input name="bot-field" /></label></p>
+
+          <div class="grid-2">
+            <label>Naam *
+              <input type="text" name="naam" required />
+            </label>
+            <label>Organisatie / kerk
+              <input type="text" name="organisatie" />
+            </label>
+            <label>E-mailadres *
+              <input type="email" name="email" required />
+            </label>
+            <label>Telefoonnummer
+              <input type="tel" name="telefoon" />
+            </label>
+          </div>
+          <label>Adres (voor verzendindicatie)
+            <input type="text" name="adres" placeholder="Straat, postcode, plaats, land" />
+          </label>
+          <label>Gewenste levering / termijn
+            <input type="text" name="levering" placeholder="Bijv. ophalen, verzenden, vóór een bepaalde datum…" />
+          </label>
+          <label>Opmerkingen
+            <textarea name="opmerkingen" rows="3" placeholder="Eventuele toelichting bij uw aanvraag"></textarea>
+          </label>
+
+          <!-- Wordt automatisch gevuld vanuit de selectie -->
+          <textarea name="bestelling" id="bestellingField" hidden></textarea>
+          <input type="hidden" name="aantal_titels" id="aantalTitelsField" />
+          <input type="hidden" name="totaal_exemplaren" id="totaalField" />
+          <input type="hidden" name="richtprijs" id="richtprijsField" />
+
+          <div class="form-summary" id="formSummary"></div>
+
+          <button type="submit" class="btn btn-primary">Offerteaanvraag versturen</button>
+          <p id="formError" class="form-error" hidden>Selecteer eerst minimaal één titel hierboven.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p><strong>Mor Ephrem Bookshop</strong> · <a href="https://morephrem.shop" target="_blank" rel="noopener">morephrem.shop</a></p>
+      <p class="muted">Syrisch-orthodoxe boeken, gebedenboeken, liturgie en meer.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# Netlify-configuratie voor de offerte-pagina van Mor Ephrem Bookshop
+# De site is statisch: alle bestanden staan in de hoofdmap (geen build-stap nodig).
+
+[build]
+  publish = "."
+  command = ""
+
+# Netlify Forms wordt automatisch gedetecteerd dankzij het verborgen
+# <form name="offerte" netlify> in index.html.
