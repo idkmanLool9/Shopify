@@ -9,21 +9,6 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Verborgen formulier zodat Netlify Forms de velden detecteert bij build -->
-  <form name="offerte" netlify netlify-honeypot="bot-field" hidden>
-    <input type="text" name="naam" />
-    <input type="text" name="organisatie" />
-    <input type="email" name="email" />
-    <input type="text" name="telefoon" />
-    <input type="text" name="adres" />
-    <input type="text" name="levering" />
-    <textarea name="opmerkingen"></textarea>
-    <textarea name="bestelling"></textarea>
-    <input type="text" name="aantal_titels" />
-    <input type="text" name="totaal_exemplaren" />
-    <input type="text" name="richtprijs" />
-  </form>
-
   <header class="site-header">
     <div class="wrap header-inner">
       <div class="brand">
@@ -88,7 +73,7 @@
       <div class="card form-card">
         <h2>Uw gegevens</h2>
         <p class="form-intro">Vul uw gegevens in. Uw geselecteerde titels worden automatisch meegestuurd.</p>
-        <form id="offerteForm" name="offerte" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/bedankt.html">
+        <form id="offerteForm" name="offerte" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="bedankt.html">
           <input type="hidden" name="form-name" value="offerte" />
           <p class="hp"><label>Niet invullen: <input name="bot-field" /></label></p>
 

@@ -180,17 +180,45 @@ function updateSummary() {
     : "";
 }
 
-function onSubmit(e) {
-  const { titles } = totals();
+async function onSubmit(e) {
+  e.preventDefault(); // wij regelen de verzending zelf (AJAX)
+  const form = document.getElementById("offerteForm");
   const err = document.getElementById("formError");
+  const btn = form.querySelector('button[type="submit"]');
+
+  const { titles } = totals();
   if (titles === 0) {
-    e.preventDefault();
+    err.textContent = "Selecteer eerst minimaal één titel hierboven.";
     err.hidden = false;
-    document.getElementById("offerteForm").scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("catalog").scrollIntoView({ behavior: "smooth", block: "start" });
     return;
   }
   err.hidden = true;
-  // Standaard POST naar Netlify Forms gaat door (action="/bedankt.html")
+
+  // Bouw de form-data (inclusief form-name, nodig voor Netlify Forms)
+  const data = new URLSearchParams(new FormData(form));
+
+  btn.disabled = true;
+  const oldLabel = btn.textContent;
+  btn.textContent = "Bezig met versturen…";
+
+  try {
+    const res = await fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: data.toString(),
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    window.location.href = "bedankt.html";
+  } catch (e2) {
+    btn.disabled = false;
+    btn.textContent = oldLabel;
+    err.innerHTML =
+      "Versturen lukte niet. Staat de site al op Netlify én is <em>Forms</em> ingeschakeld? " +
+      "Controleer in Netlify of het formulier &lsquo;offerte&rsquo; verschijnt onder <strong>Forms</strong> " +
+      "(her-deploy de site na wijzigingen). Lukt het niet, mail uw aanvraag dan rechtstreeks via de webshop.";
+    err.hidden = false;
+  }
 }
 
 function escapeHtml(s) {
