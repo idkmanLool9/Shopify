@@ -16,6 +16,7 @@ Shopify; je plaatst er vanuit Shopify alleen een link naartoe.
 | `products.json` | De boekenlijst (titel, categorie, prijs, afbeelding, link) |
 | `bedankt.html` | Bevestigingspagina na het versturen |
 | `netlify.toml` | Netlify-instellingen (statische site, geen build) |
+| `netlify/functions/submission-created.js` | Verstuurt bij elke aanvraag een gestylede HTML-e-mail via Resend |
 
 ## Zo zet je hem live op Netlify (gratis)
 
@@ -38,6 +39,33 @@ Shopify; je plaatst er vanuit Shopify alleen een link naartoe.
 2. **Add notification → Email notification**.
 3. Vul het e-mailadres in waar de aanvragen heen moeten (bv. `Morephrem@hotmail.com`).
 4. Inzendingen zijn ook altijd terug te vinden onder **Forms → offerte**.
+
+## Gestylede e-mail via Resend (aanbevolen)
+
+Netlify's eigen e-mailmelding is platte tekst. Voor een nette, gebrande e-mail
+(tabel met titels, aantallen en prijzen) verstuurt de functie
+`netlify/functions/submission-created.js` de mail via [Resend](https://resend.com).
+
+1. Maak een gratis account op <https://resend.com> (meld je aan met het adres waar
+   je de aanvragen wilt ontvangen, bv. `Morephrem@hotmail.com`).
+2. Ga naar **API Keys → Create API Key** en kopieer de sleutel.
+3. In Netlify: **Site configuration → Environment variables → Add a variable**:
+   - `RESEND_API_KEY` = je gekopieerde sleutel *(verplicht)*
+   - `NOTIFY_EMAIL` = ontvanger, bv. `Morephrem@hotmail.com` *(optioneel)*
+   - `FROM_EMAIL` = afzender *(optioneel)*
+4. **Deploy de site opnieuw** zodat de functie en variabelen actief worden.
+5. Doe een testaanvraag — je ontvangt nu de gestylede e-mail.
+
+> **Afzender / domein.** Zonder eigen domein verstuurt Resend vanaf
+> `onboarding@resend.dev`; dat werkt zolang je naar je **eigen** account-adres
+> mailt. Wil je mailen vanaf bv. `offerte@morephrem.shop` (en naar elk adres),
+> verifieer dan je domein in Resend onder **Domains** en zet
+> `FROM_EMAIL="Mor Ephrem Offerte <offerte@morephrem.shop>"`.
+
+> **Dubbele mail voorkomen.** Laat je de gestylede e-mail via Resend lopen, zet
+> dan de ingebouwde Netlify-melding uit: **Forms → Form notifications** →
+> verwijder de "Email notification". De inzendingen blijven gewoon zichtbaar
+> onder **Forms → offerte**.
 
 ### Eigen domein/subdomein (optioneel)
 Wil je bv. `offerte.morephrem.shop` in plaats van de netlify.app-URL? Dat kan

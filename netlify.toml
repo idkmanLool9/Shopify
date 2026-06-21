@@ -5,5 +5,14 @@
   publish = "."
   command = ""
 
-# Netlify Forms wordt automatisch gedetecteerd dankzij het verborgen
-# <form name="offerte" netlify> in index.html.
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Netlify Forms wordt automatisch gedetecteerd dankzij het statische
+# <form name="offerte" data-netlify="true"> in index.html.
+#
+# De functie netlify/functions/submission-created.js wordt automatisch
+# aangeroepen bij elke inzending en verstuurt een gestylede e-mail via Resend.
+# Zet hiervoor de omgevingsvariabele RESEND_API_KEY (en eventueel NOTIFY_EMAIL
+# en FROM_EMAIL) in Netlify → Site configuration → Environment variables.

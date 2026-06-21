@@ -173,6 +173,15 @@ function updateSummary() {
   document.getElementById("bestellingField").value = sel
     .map((x) => `${x.qty}× ${x.p.title} (${euro(x.p.price)}/st) = ${euro(x.qty * x.p.price)}`)
     .join("\n");
+  document.getElementById("bestellingJsonField").value = JSON.stringify(
+    sel.map((x) => ({
+      title: x.p.title,
+      qty: x.qty,
+      price: x.p.price,
+      total: x.qty * x.p.price,
+      handle: x.p.handle || "",
+    }))
+  );
 
   const fs = document.getElementById("formSummary");
   fs.textContent = sel.length
